@@ -13,7 +13,10 @@ year = input('enter year: ')
 month = input('enter month: ')
 search = year+month
 
-
+import os
+if not os.path.exists('files'):
+   os.makedirs('files')
+   os.makedirs('files/unzipped')
 
 for tanant in tanants:
     user = input(f'enter user id for tanant {tanant}: ')
@@ -85,11 +88,13 @@ for tanant in tanants:
 
     rm_files = files + zip_files + csv_files + glob.glob('files/unzipped/*.pdf')
 
-    import os
-
     print('deleting files')
 
     for file in rm_files:
         os.remove(file)
 
     print('files deleted')
+
+
+os.rmdir('files/unzipped')
+os.rmdir('files')
