@@ -48,11 +48,11 @@ async def report(tanant: str, username: str, password: str, year: str, month: st
     invoices = []
 
     for i in import_log_json['content']:
-        # print(f"this is the filename: {i['fileName']}")
+        print(f"this is the filename: {i['fileName']}")
         if search in i['fileName']:
             invoices.append(i['fileName'])
 
-    # print(invoices)
+    print(invoices)
 
     for invoice in invoices:
         res = requests.get(url=f'{download_url}{invoice}', headers={'Authorization': f'bearer {access_token}'})
@@ -84,10 +84,6 @@ async def report(tanant: str, username: str, password: str, year: str, month: st
             total_lines += len(f.readlines())-1
             print('getting invoice count from csv file')
 
-    with open(f'result_{search}.txt', '+a') as f:
-        f.write(f'{tanant}: {str(total_lines)}\n')
-        print('generating result.txt')
-
     rm_files = files + zip_files + csv_files + glob.glob('files/unzipped/*.pdf')
 
     print('deleting files')
@@ -100,4 +96,4 @@ async def report(tanant: str, username: str, password: str, year: str, month: st
 
     os.rmdir('files/unzipped')
     os.rmdir('files')
-    return {"message": f"Generated result_{search}.txt"}
+    return {"message": f"{tanant}: {str(total_lines)}"}
